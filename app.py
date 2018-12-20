@@ -1,4 +1,7 @@
 from flask import Flask, render_template, request
+import requests
+import json
+
 app = Flask(__name__)
 
 @app.route('/')
@@ -13,8 +16,19 @@ def study_image():
     # Your job now is to send this information to the Clarifai API
     # and read the result, make sure that you read and understand the
     # example we covered in the slides! 
-
-    # YOUR CODE HERE!
+    print(image_url)
+    headers = {'Authorization': 'Key f2f339a3cc374420a221fa27e58a3202'}
+    api_url = "https://api.clarifai.com/v2/models/aaa03c23b3724a16a56b629203edc62c/outputs"
+    data ={"inputs": [
+        {
+        "data": {
+            "image": {
+            "url": image_url
+            }
+        }
+        }
+    ]}
+    response = requests.post(api_url, headers=headers, data=json.dumps(data))
     
     return render_template('home.html', results="No results yet :(")
 
